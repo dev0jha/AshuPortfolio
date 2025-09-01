@@ -20,13 +20,13 @@ const Footer: React.FC = () => {
             </p>
 
             <p className="text-gray-400 text-sm">
-              © {currentYear} Ashutosh Ojha Photography. All rights reserved.
+              © {currentYear} Ashutosh Ojha. All rights reserved.
             </p>
             <p className="text-gray-400 text-sm mt-1">
               Crafted with passion for visual storytelling
             </p> <br/>
               <a href="https://www.instagram.com/iykyk_dev/" target="_blank" rel="noopener noreferrer">
-            <Instagram size={24} className="text-pink-500 mb-4" />
+            <Instagram size={24} className="text-pink-500 mb-4 hover:text-pink-600" />
             </a>
             <p className="text-gray-400 font-bold text-sm mt-4">
               Managed by Dev
