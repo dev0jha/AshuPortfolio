@@ -152,10 +152,10 @@ function HeroGeometric({
                         variants={fadeUpVariants}
                         initial="hidden"
                         animate="visible"
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6 md:mb-12"
                     >
                         <Circle className="h-2 w-2 fill-yellow-400/80 text-yellow-400/80" />
-                        <span className="text-sm text-white/60 tracking-wide">
+                        <span className="text-xs sm:text-sm text-white/60 tracking-wide">
                             {badge}
                         </span>
                     </motion.div>
@@ -166,7 +166,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <h1 className="text-2xl sm:text-6xl md:text-7xl font-bold mb-6 md:mb-8 tracking-tight leading-none">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-8 tracking-tight leading-tight">
                             <span style={{ color: 'oklch(94.5% 0.129 101.54)' }}>
                                 Hey!!!...
                             </span><br />
@@ -182,7 +182,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <p className="text-lg sm:text-xl md:text-2xl text-white/60 mb-12 leading-relaxed font-light tracking-wide max-w-3xl mx-auto px-4">
+                        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/60 mb-8 md:mb-12 leading-relaxed font-light tracking-wide max-w-3xl mx-auto px-2 sm:px-4">
                             {subtitle}
                         </p>
                     </motion.div>
@@ -192,18 +192,18 @@ function HeroGeometric({
                         variants={fadeUpVariants}
                         initial="hidden"
                         animate="visible"
-                        className="flex flex-col sm:flex-row gap-4 justify-center"
+                        className="flex flex-col sm:flex-row gap-4 justify-center px-4"
                     >
                         <a
                             href="#portfolio"
-                            className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-semibold rounded-full hover:from-yellow-300 hover:to-amber-300 transition-all duration-300 hover:transform hover:scale-105 shadow-lg hover:shadow-yellow-400/25"
+                            className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-semibold rounded-full hover:from-yellow-300 hover:to-amber-300 transition-all duration-300 hover:transform hover:scale-105 shadow-lg hover:shadow-yellow-400/25 text-sm sm:text-base"
                         >
                             Explore Portfolio
                         </a>
 
                         <a
                             href="#contact"
-                            className="group inline-flex items-center justify-center px-8 py-4 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300 backdrop-blur-sm"
+                            className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300 backdrop-blur-sm text-sm sm:text-base"
                         >
                             Get In Touch
                         </a>
