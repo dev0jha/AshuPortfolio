@@ -32,10 +32,10 @@ const Portfolio: React.FC = () => {
       images: [
         "./Concert/1.webp",
         "./Concert/Akhil.webp",
-        "./Concert/Parmish.webp",
+        "./Concert/Parmishh.webp",
         "./Concert/Kanika.webp",
         "./Concert/Shilpa.webp",
-        "./Concert/Parmish2.webp",
+        "./Concert/Parmish.webp",
         "./Concert/Akhil2.webp",
         "./Concert/Kanika2.webp",
       ]
