@@ -35,7 +35,7 @@ const About: React.FC = () => {
               Hello, I'm Ashutosh Ojha, an India-based photographer with over five years of experience transforming everyday moments into unforgettable art. My journey began with a love for visual storytelling—capturing emotion, personality, and meaning in each image. I specialize in portrait, landscape, event, and nature photography, always striving to create frames that do more than record the scene: they evoke feeling, spark imagination, and quietly tell a story.
             </p>
             <p className="text-lg text-white/70 mb-8 leading-relaxed">
-              As the founder of SoftPro Production, I lead a creative team dedicated to developing unique and soulful visual experiences for every client. Whether I'm photographing an intimate portrait or a vibrant event, my craft is a blend of technical skill, creative exploration, and genuine connection. Every photograph is more than a memory—it's a piece of art designed to inspire and endure.
+              As the founder of SoftFrame Production, I lead a creative team dedicated to developing unique and soulful visual experiences for every client. Whether I'm photographing an intimate portrait or a vibrant event, my craft is a blend of technical skill, creative exploration, and genuine connection. Every photograph is more than a memory—it's a piece of art designed to inspire and endure.
             </p>
           </div>
 
