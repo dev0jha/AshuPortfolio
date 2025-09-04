@@ -1,5 +1,162 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ExternalLink, X, ChevronLeft, ChevronRight, Camera } from 'lucide-react';
+
+// Lazy Image Component
+interface LazyImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+  onClick?: () => void;
+}
+
+const LazyImage: React.FC<LazyImageProps> = ({ src, alt, className = '', onClick }) => {
+  const [imageSrc, setImageSrc] = useState<string>('');
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const imgRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isInView && src && !imageSrc) {
+      const img = new Image();
+      img.onload = () => {
+        setImageSrc(src);
+        setIsLoaded(true);
+      };
+      img.onerror = () => {
+        setHasError(true);
+      };
+      img.src = src;
+    }
+  }, [isInView, src, imageSrc]);
+
+  return (
+    <div ref={imgRef} className={`relative ${className}`} onClick={onClick}>
+      {imageSrc && !hasError && (
+        <img
+          src={imageSrc}
+          alt={alt}
+          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          onLoad={() => setIsLoaded(true)}
+        />
+      )}
+
+      {!isLoaded && !hasError && (
+        <div className="absolute inset-0 bg-gray-800 animate-pulse flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-gray-600 border-t-white rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      {hasError && (
+        <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+          <div className="text-center text-gray-400">
+            <Camera size={32} className="mx-auto mb-2 opacity-50" />
+            <p className="text-sm">Failed to load</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Lazy Video Component
+interface LazyVideoProps {
+  src: string;
+  className?: string;
+  onClick?: () => void;
+}
+
+const LazyVideo: React.FC<LazyVideoProps> = ({ src, className = '', onClick }) => {
+  const [videoSrc, setVideoSrc] = useState<string>('');
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const videoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isInView && src && !videoSrc) {
+      setVideoSrc(src);
+    }
+  }, [isInView, src, videoSrc]);
+
+  return (
+    <div ref={videoRef} className={`relative ${className}`} onClick={onClick}>
+      {videoSrc && !hasError && (
+        <video
+          src={videoSrc}
+          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          controls
+          preload="metadata"
+          muted
+          loop
+          onLoadedData={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
+        />
+      )}
+
+      {!isLoaded && !hasError && (
+        <div className="absolute inset-0 bg-gray-800 animate-pulse flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-gray-600 border-t-white rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      {hasError && (
+        <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+          <div className="text-center text-gray-400">
+            <Camera size={32} className="mx-auto mb-2 opacity-50" />
+            <p className="text-sm">Failed to load video</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Portfolio: React.FC = () => {
   const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
@@ -11,21 +168,21 @@ const Portfolio: React.FC = () => {
     { id: 'travel', name: 'Travel' },
     { id: 'concert', name: 'Concert' },
     { id: 'food', name: 'Food' },
-    { id: 'freelance', name: 'Freelance' },
+    { id: 'models', name: 'Models' },
     { id: 'wedding', name: 'Wedding' }
   ];
 
   const portfolioData = {
     'Travel': {
       images: [
-        "./Travel/Travel1.webp",
+        "./Travel/Travel.webp",
         "./Travel/Travel2.webp",
-        "./Travel/Travelv1.webm",
+        "./Travel/Travel7.webp",
         "./Travel/Travel3.webp",
-        "./Travel/Travelv2.webm",
+        "./Travel/Travel1.webp",
         "./Travel/Travel4.webp",
         "./Travel/Travel5.webp",
-        "./Travel/Travelv.webm",
+         "./Travel/Travel6.webp",
       ]
     },
     'Concert': {
@@ -52,7 +209,7 @@ const Portfolio: React.FC = () => {
         "./Food/Food8.webp",
       ]
     },
-    'Freelance': {
+    'Models': {
       images: [
         "./Freelance/Freelance1.webp",
         "./Freelance/Freelance2.webp",
@@ -72,25 +229,25 @@ const Portfolio: React.FC = () => {
         "./Wedding/Wedding4.webp",
         "./Wedding/Wedding5.webp",
         "./Wedding/Wedding6.webp",
-        "./Wedding/Wedding7.webp",
+        "./Wedding/Wedding2.webp",
         "./Wedding/Wedding8.webp",
       ]
     }
   };
 
-  const openPreview = (media: string, sectionMedia: string[], index: number) => {
+  const openPreview = useCallback((media: string, sectionMedia: string[], index: number) => {
     setSelectedMedia(media);
     setCurrentSectionMedia(sectionMedia);
     setCurrentMediaIndex(index);
-  };
+  }, []);
 
-  const closePreview = () => {
+  const closePreview = useCallback(() => {
     setSelectedMedia(null);
     setCurrentSectionMedia([]);
     setCurrentMediaIndex(0);
-  };
+  }, []);
 
-  const navigateMedia = (direction: 'prev' | 'next') => {
+  const navigateMedia = useCallback((direction: 'prev' | 'next') => {
     if (currentSectionMedia.length === 0) return;
 
     let newIndex;
@@ -102,9 +259,9 @@ const Portfolio: React.FC = () => {
 
     setCurrentMediaIndex(newIndex);
     setSelectedMedia(currentSectionMedia[newIndex]);
-  };
+  }, [currentMediaIndex, currentSectionMedia]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedMedia) return;
 
@@ -119,7 +276,7 @@ const Portfolio: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedMedia, currentMediaIndex, currentSectionMedia]);
+  }, [selectedMedia, navigateMedia, closePreview]);
 
   const currentMedia = portfolioData[activeTab as keyof typeof portfolioData]?.images || [];
 
@@ -159,31 +316,26 @@ const Portfolio: React.FC = () => {
 
               return (
                 <div
-                  key={index}
+                  key={`${activeTab}-${index}`}
                   className="group relative overflow-hidden rounded-xl bg-gray-900 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                   onClick={() => openPreview(item, currentMedia, index)}
                 >
                   <div className="aspect-square relative">
                     {isVideo ? (
-                      <video
+                      <LazyVideo
                         src={item}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        controls
-                        preload="metadata"
-                        muted
-                        loop
+                        className="w-full h-full"
                       />
                     ) : (
-                      <img
+                      <LazyImage
                         src={item}
                         alt={`${activeTab} media ${index + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        loading="lazy"
+                        className="w-full h-full"
                       />
                     )}
 
                     {!isVideo && (
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
                         <div className="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                           <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3">
                             <Camera size={24} className="text-white" />
@@ -214,6 +366,7 @@ const Portfolio: React.FC = () => {
         </div>
       </section>
 
+      {/* Modal Preview */}
       {selectedMedia && (
         <div
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
